@@ -5,7 +5,7 @@ const librosController = new LibrosController();
 
 router.post('/', (req, res) => librosController.registrarLibro(req, res));
 router.get('/', (req, res) => librosController.obtenerLibros(req, res));
-router.put('/libros/:id', (req, res) => librosController.actualizarLibro(req, res));
-router.delete('/libros/:id', (req, res) => librosController.borrarLibro(req, res));
+router.put('/:id', (req, res) => librosController.actualizarLibro(req, res));
+router.delete('/:id', (req, res) => librosController.borrarLibro(req, res));
 
 module.exports = router;

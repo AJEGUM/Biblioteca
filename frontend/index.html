@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD con Cards</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Sistema CRUD</h1>
+
+  <!-- Sección Usuarios -->
+  <section>
+    <h2>Usuarios</h2>
+    <form id="form-usuario" class="formulario">
+      <input type="text" id="nombre-usuario" placeholder="Nombre" required>
+      <button type="submit">Agregar Usuario</button>
+    </form>
+    <div id="usuarios" class="cards-container"></div>
+  </section>
+
+  <!-- Sección Categorías -->
+  <section>
+    <h2>Categorías</h2>
+    <form id="form-categoria" class="formulario">
+      <input type="text" id="nombre-categoria" placeholder="Categoría" required>
+      <button type="submit">Agregar Categoría</button>
+    </form>
+    <div id="categorias" class="cards-container"></div>
+  </section>
+
+  <!-- Sección Libros -->
+  <section>
+    <h2>Libros</h2>
+    <form id="form-libro" class="formulario">
+      <input type="text" id="titulo-libro" placeholder="Título" required>
+      <input type="text" id="isbn-libro" placeholder="ISBN" required>
+      <input type="number" id="anio-libro" placeholder="Año publicación" required>
+      <input type="number" id="categoria-libro" placeholder="ID Categoría" required>
+      <button type="submit">Agregar Libro</button>
+    </form>
+    <div id="libros" class="cards-container"></div>
+  </section>
+
+  <script src="index.js"></script>
+</body>
+</html>
