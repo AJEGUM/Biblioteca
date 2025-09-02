@@ -106,7 +106,7 @@ document.getElementById("form-libro").addEventListener("submit", async e => {
   const titulo = document.getElementById("titulo-libro").value;
   const ISBN = document.getElementById("isbn-libro").value;
   const anio_publicacion = document.getElementById("anio-libro").value;
-  const id_categorias = document.getElementById("categoria-libro").value; // 👈 cambia el nombre
+  const id_categorias = document.getElementById("categoria-libro").value;
 
   await fetch(`${API}/libros`, {
     method: "POST",
@@ -156,7 +156,57 @@ async function editarLibro(id, tituloActual) {
   }
 }
 
+// ---------- PRÉSTAMOS ----------
+document.getElementById("form-prestamo").addEventListener("submit", async e => {
+  e.preventDefault();
+  const fecha_prestamo = document.getElementById("fecha-prestamo").value;
+  const fecha_prevista = document.getElementById("fecha-prevista").value;
+  const libro = document.getElementById("id-libro-prestamo").value;
+  const usuario = document.getElementById("id-usuario-prestamo").value;
+
+  await fetch(`${API}/prestamos`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fecha_prestamo, fecha_prevista, libro, usuario })
+  });
+
+  e.target.reset();
+  cargarPrestamos();
+});
+
+async function cargarPrestamos() {
+  const res = await fetch(`${API}/prestamos`);
+  const data = await res.json();
+  const contenedor = document.getElementById("prestamos");
+  contenedor.innerHTML = "";
+  data.forEach(p => {
+    contenedor.innerHTML += `
+      <div class="card">
+        <h3>Préstamo #${p.id_prestamo}</h3>
+        <p><b>Libro:</b> ${p.libro}</p>
+        <p><b>Usuario:</b> ${p.usuario}</p>
+        <p><b>Fecha préstamo:</b> ${p.fecha_prestamo}</p>
+        <p><b>Fecha prevista:</b> ${p.fecha_prevista}</p>
+        <p><b>Devolución:</b> ${p.devolucion_real || "Pendiente"}</p>
+        ${!p.devolucion_real ? `<button onclick="registrarDevolucion(${p.id_prestamo})">Registrar devolución</button>` : ""}
+      </div>`;
+  });
+}
+
+async function registrarDevolucion(id) {
+  const fecha = prompt("Ingrese la fecha de devolución real (YYYY-MM-DD):");
+  if (fecha) {
+    await fetch(`${API}/prestamos/${id}/devolucion`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ devolucion_real: fecha })
+    });
+    cargarPrestamos();
+  }
+}
+
 // ---------- CARGA INICIAL ----------
 cargarUsuarios();
 cargarCategorias();
 cargarLibros();
+cargarPrestamos();

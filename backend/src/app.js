@@ -11,5 +11,6 @@ app.use(express.urlencoded({ extended: true, limit: '20mb'}))
 app.use('/api/usuarios', require('./routes/usuarios.routes'));
 app.use('/api/categorias', require('./routes/categoria.routes'));
 app.use('/api/libros', require('./routes/libros.routes'))
+app.use('/api/prestamos', require('./routes/prestamos.routes'));
 
 module.exports = app

@@ -41,6 +41,32 @@
     <div id="libros" class="cards-container"></div>
   </section>
 
+  <!-- Sección Préstamos -->
+<section>
+  <h2>Préstamos</h2>
+  <form id="form-prestamo">
+    <h3>Fechas</h3>
+    <label for="fecha-prestamo">Fecha de Préstamo:</label>
+    <input type="date" id="fecha-prestamo" required>
+
+    <label for="fecha-prevista">Fecha de Devolución Prevista:</label>
+    <input type="date" id="fecha-prevista" required>
+
+    <h3>Datos de Préstamo</h3>
+    <label for="id-libro-prestamo">ID Libro:</label>
+    <input type="number" id="id-libro-prestamo" placeholder="ID Libro" required>
+
+    <label for="id-usuario-prestamo">ID Usuario:</label>
+    <input type="number" id="id-usuario-prestamo" placeholder="ID Usuario" required>
+
+    <button type="submit">Registrar Préstamo</button>
+  </form>
+  <div id="prestamos"></div>
+</section>
+
+
+
+
   <script src="index.js"></script>
 </body>
 </html>
