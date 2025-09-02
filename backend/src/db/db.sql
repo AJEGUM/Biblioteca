@@ -13,9 +13,10 @@ create table usuarios(
 
 create table libros(
 	id_libro int primary key auto_increment,
-    Titulo varchar(30),
-    año_publicacion varchar(10),
+    Titulo varchar(100),
+    anio_publicacion varchar(10),
     isbn varchar(20),
+    cantidad int,
     id_categorias int,
     foreign key (id_categorias) references categorias(id_categoria)
 );

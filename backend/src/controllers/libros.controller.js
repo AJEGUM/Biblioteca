@@ -34,29 +34,40 @@ class LibrosController {
     }
 
     // Actualizar libro
-    async actualizarLibro(req, res) {
-        try {
-            const { id } = req.params;
-            const { titulo, ISBN, anio_publicacion, id_categorias } = req.body;
+// Actualizar libro (versión flexible)
+async actualizarLibro(req, res) {
+  try {
+    const { id } = req.params;
+    const { titulo, ISBN, anio_publicacion, id_categorias } = req.body;
 
-            const query = `
-                UPDATE libros
-                SET titulo = ?, ISBN = ?, anio_publicacion = ?, id_categorias = ?
-                WHERE id_libro = ?
-            `;
+    // Construir query dinámicamente
+    let campos = [];
+    let valores = [];
 
-            const [result] = await db.execute(query, [titulo, ISBN, anio_publicacion, id_categorias, id]);
+    if (titulo !== undefined) { campos.push("titulo = ?"); valores.push(titulo); }
+    if (ISBN !== undefined) { campos.push("isbn = ?"); valores.push(ISBN); }
+    if (anio_publicacion !== undefined) { campos.push("anio_publicacion = ?"); valores.push(anio_publicacion); }
+    if (id_categorias !== undefined) { campos.push("id_categorias = ?"); valores.push(id_categorias); }
 
-            if (result.affectedRows === 0) {
-                return res.status(404).json({ message: 'Libro no encontrado' });
-            }
-
-            res.json({ message: 'Libro actualizado' });
-        } catch (error) {
-            console.error('Error al actualizar libro:', error);
-            res.status(500).json({ message: 'Error del servidor' });
-        }
+    if (campos.length === 0) {
+      return res.status(400).json({ message: 'No hay campos para actualizar' });
     }
+
+    valores.push(id);
+
+    const query = `UPDATE libros SET ${campos.join(", ")} WHERE id_libro = ?`;
+    const [result] = await db.execute(query, valores);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    res.json({ message: 'Libro actualizado' });
+  } catch (error) {
+    console.error('Error al actualizar libro:', error);
+    res.status(500).json({ message: 'Error del servidor' });
+  }
+}
 
     // Borrar libro
     async borrarLibro(req, res) {
